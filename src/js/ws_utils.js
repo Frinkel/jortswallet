@@ -1,3 +1,5 @@
+// Modified for Lynnesbicoin
+
 const fs = require('fs');
 const path = require('path');
 const crypto = require('crypto');
@@ -104,7 +106,7 @@ exports.genQrDataUrl = (inputStr) => {
 
 exports.validateTRTLAddress = (address) => {
     if(!address) return false;
-    let re = new RegExp(/^TRTL(?=[aA-zZ0-9]*$)(?:.{95}|.{183})$/g);
+    let re = new RegExp(/^gay1(?=[aA-zZ0-9]*$)(?:.{95}|.{183})$/g);
     return re.test(address);
 };
 
@@ -176,9 +178,9 @@ exports.isRegularFileAndWritable = (filePath) => {
 
 exports.normalizeWalletFilename = (rawFilename) => {
     if(!rawFilename) return '';
-    const walletExt = 'twl';
+    const walletExt = 'jort';
     let ext = path.extname(rawFilename.trim());
-    if(ext.endsWith('.twl')) return rawFilename;
+    if(ext.endsWith('jort')) return rawFilename;
     if(ext.endsWith('.')) return `${rawFilename}${walletExt}`;
     return `${rawFilename}.${walletExt}`;
 };

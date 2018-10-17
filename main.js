@@ -18,27 +18,27 @@ log.transports.console.level = LOG_LEVEL;
 log.transports.file.level = LOG_LEVEL;
 log.transports.file.maxSize = 5 * 1024 * 1024;
 
-const WALLETSHELL_VERSION = app.getVersion() || '0.3.4';
-const SERVICE_FILENAME =  (platform === 'win32' ? 'turtle-service.exe' : 'turtle-service' );
+const WALLETSHELL_VERSION = app.getVersion() || '0.0.1';
+const SERVICE_FILENAME =  (platform === 'win32' ? 'lynne-service.exe' : 'lynne-service' );
 const SERVICE_OSDIR = (platform === 'win32' ? 'win' : (platform === 'darwin' ? 'osx' : 'lin'));
 const DEFAULT_SERVICE_BIN = path.join(process.resourcesPath,'bin', SERVICE_OSDIR, SERVICE_FILENAME);
-const DEFAULT_TITLE = 'WalletShell TurtleCoin Wallet';
-const DEFAULT_TRAY_TIP = 'Slow and steady wins the race!';
-const PUBLIC_NODES_URL = 'https://raw.githubusercontent.com/turtlecoin/turtlecoin-nodes-json/master/turtlecoin-nodes.json';
+const DEFAULT_TITLE = 'Jorts Lynnesbicoin Wallet';
+const DEFAULT_TRAY_TIP = 'The Wallet with a Jood (jean mood)';
+const PUBLIC_NODES_URL = 'https://raw.githubusercontent.com/Frinkel/jortswallet/master/nodes.js'; // apparently i have to have this here or the program will crash :V
 const FALLBACK_NODES = [
-    'public.turtlenode.io:11898',
-    'public.turtlenode.net:11898',
+    '45.33.2.79:42070',
+    '176.58.96.19:42070',
 ];
 const DEFAULT_SETTINGS = {
     service_bin: DEFAULT_SERVICE_BIN,
     service_host: '127.0.0.1',
     service_port: 8070,
     service_password: crypto.randomBytes(32).toString('hex'),
-    daemon_host: 'public.turtlenode.io',
-    daemon_port: 11898,
+    daemon_host: '127.0.0.1',
+    daemon_port: 42070,
     pubnodes_date: null,
     pubnodes_data: FALLBACK_NODES,
-    pubnodes_custom: ['127.0.0.1:11898'],
+    pubnodes_custom: ['127.0.0.1:42070'],
     tray_minimize: false,
     tray_close: false,
     darkmode: true
@@ -51,9 +51,9 @@ const DEFAULT_SIZE = {
 app.prompExit = true;
 app.prompShown = false;
 app.needToExit = false;
-app.setAppUserModelId('lol.turtlecoin.walletshell');
+app.setAppUserModelId('frinkel.lynnesbicoin.jortswallet');
 
-log.info(`Starting WalletShell ${WALLETSHELL_VERSION}`);
+log.info(`Starting JortsWallet ${WALLETSHELL_VERSION}`);
 
 let trayIcon = path.join(__dirname,'src/assets/tray.png');
 let trayIconHide = path.join(__dirname,'src/assets/trayon.png');
@@ -274,7 +274,7 @@ function serviceBinCheck(){
             log.error(err);
         }else{
             settings.set('service_bin', targetPath);
-            log.debug(`turtle-service copied to ${targetPath}`);
+            log.debug(`lynne-service copied to ${targetPath}`);
         }
         //log.warn(`TurtleService copied to ${targetPath}`);
         //settings.set('service_bin', targetPath);

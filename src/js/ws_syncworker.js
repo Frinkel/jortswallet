@@ -7,8 +7,8 @@ log.transports.console.level = 'debug';
 log.transports.file.level = 'debug';
 
 const CHECK_INTERVAL = 8 * 1000;
-var LAST_BLOCK_COUNT = 1;
-var LAST_KNOWN_BLOCK_COUNT = 1;
+var LAST_BLOCK_COUNT = 0;
+var LAST_KNOWN_BLOCK_COUNT = 0;
 
 var SERVICE_CFG = null; // { service_host: '127.0.0.1', service_port: '8070', service_password: 'xxx'};
 var SAVE_COUNTER = 0;
@@ -52,6 +52,7 @@ function checkBlockUpdate(){
     wsapi.getStatus().then((blockStatus) => {
         STATE_PENDING_SAVE = false;
         let lastConStatus = STATE_CONNECTED;
+        logDebug(parseInt(blockStatus.knownBlockCount, 10));
         let conFailed  = parseInt(blockStatus.knownBlockCount, 10) === 1;
         if(conFailed){
             logDebug('checkBlockUpdate: Got bad known block count, mark connection as broken');

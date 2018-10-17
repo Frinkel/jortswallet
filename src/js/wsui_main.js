@@ -345,7 +345,7 @@ function showIntegratedAddressForm(){
     <h4>Generate Integrated Address:</h4>
     <div class="input-wrap">
     <label>Wallet Address</label>
-    <textarea id="genInputAddress" class="default-textarea" placeholder="Required, put any valid TRTL address..">${ownAddress}</textarea>
+    <textarea id="genInputAddress" class="default-textarea" placeholder="Required, put any valid LYNNE address..">${ownAddress}</textarea>
     </div>
     <div class="input-wrap">
     <label>Payment Id (<a id="makePaymentId" class="wallet-tool inline-tool" title="generate random payment id...">generate</a>)</label>
@@ -622,16 +622,8 @@ function insertSampleAddresses(){
     let flag = 'addressBookFirstUse';
     if(!settings.get(flag, true)) return;
     const sampleData = [
-        { name: 'labaylabay',
-          address: 'TRTLv1A26ngXApin33p1JsSE9Yf6REj97Xruz15D4JtSg1wuqYTmsPj5Geu2kHtBzD8TCsfd5dbdYRsrhNXMGyvtJ61AoYqLXVS',
-          paymentId: 'DF794857BC4587ECEC911AF6A6AB02513FEA524EC5B98DA8702FAC92195A94B2', 
-        },
-        { name: 'Macroshock',
-          address: 'TRTLv3R17LWbVw8Qv4si2tieyKsytUfKQXUgsmjksgrgJsTsnhzxNAeLKPjsyDGF7HGfjqkDegu2LPaC5NeVYot1SnpfcYmjwie',
-          paymentId: '', 
-        },
-        { name: 'RockSteady',
-          address: 'TRTLuxEnfjdF46cBoHhyDtPN32weD9fvL43KX5cx2Ck9iSP4BLNPrJY3xtuFpXtLxiA6LDYojhF7n4SwPNyj9M64iTwJ738vnJk',
+        { name: 'Frinkel',
+          address: 'gay1bUX8MMD9hpZxHYtF7fixFUpKvRoPeNQvTyap4qqAf9e588TrZpdGg1YiePToatRQLpTxMhksWRjJoC5DA9RHMa4bcVVHUuo',
           paymentId: '', 
         }
     ];
@@ -701,7 +693,7 @@ function handleSettings(){
         }
 
         if(!wsutil.isRegularFileAndWritable(serviceBinValue)){
-            formMessageSet('settings','error',`Unable to find turtle-service, please enter the correct path`);
+            formMessageSet('settings','error',`Unable to find lynne-service, please enter the correct path`);
             return false;
         }
         
@@ -893,7 +885,7 @@ function handleAddressBook(){
         }
 
         if(!wsutil.validateTRTLAddress(walletValue)){
-            formMessageSet('addressbook','error',"Invalid TurtleCoin address");
+            formMessageSet('addressbook','error',"Invalid LYNNE address");
             return;
         }
         
@@ -1392,7 +1384,7 @@ function handleSendTransfer(){
         let tobeSent = 0;
 
         if(!recAddress.length || !wsutil.validateTRTLAddress(recAddress)){
-            formMessageSet('send','error','Sorry, invalid TRTL address');
+            formMessageSet('send','error','Sorry, invalid LYNNE address');
             return;
         }
 
@@ -1422,10 +1414,10 @@ function handleSendTransfer(){
 
         let rAmount = amount; // copy raw amount for dialog
         tobeSent += amount;
-        let minFee = 0.10;
+        let minFee = 1.00;
         amount *= 100;
 
-        if (fee < 0.10) {
+        if (fee < 1) {
             formMessageSet('send','error',`Fee can't be less than ${(minFee).toFixed(2)}`);
             return;
         }
@@ -1470,13 +1462,13 @@ function handleSendTransfer(){
                         <dt class="${recPayId.length ? 'dt-ib' : 'hidden'}">Payment ID:</dt>
                         <dd class="${recPayId.length ? 'dd-ib' : 'hidden'}">${recPayId.length ? recPayId : 'N/A'}</dd>
                         <dt class="dt-ib">Amount:</dt>
-                        <dd class="dd-ib">${rAmount} TRTL</dd>
+                        <dd class="dd-ib">${rAmount} LYNNE</dd>
                         <dt class="dt-ib">Transaction Fee:</dt>
-                        <dd class="dd-ib">${rFee} TRTL</dd>
+                        <dd class="dd-ib">${rFee} LYNNE</dd>
                         <dt class="dt-ib">Node Fee:</dt>
-                        <dd class="dd-ib">${(nodeFee > 0 ? nodeFee : '0.00')} TRTL</dd>
+                        <dd class="dd-ib">${(nodeFee > 0 ? nodeFee : '0.00')} LYNNE</dd>
                         <dt class="dt-ib">Total:</dt>
-                        <dd class="dd-ib">${tobeSent} TRTL</dd>
+                        <dd class="dd-ib">${tobeSent} LYNNE</dd>
                     </dl>
                 </div>
             </div>
@@ -1666,7 +1658,7 @@ function handleTransactions(){
         mode = mode || 'all';
         let recentDir = settings.get('recentWalletDir', remote.app.getPath('documents'));
         let filename = remote.dialog.showSaveDialog({
-            title: "Export transactions as scv...",
+            title: "Export transactions as csv...",
             defaultPath: recentDir,
             filters: [
                 { name: 'CSV files', extensions: ['csv'] }
@@ -1920,12 +1912,12 @@ function initHandlers(){
             return;
         }
         if(!wsutil.validateTRTLAddress(addr)){
-            formMessageSet('gia','error', 'Invalid TRTL address');
+            formMessageSet('gia','error', 'Invalid LYNNE address');
             return;
         }
         // only allow standard address
         if(addr.length > 99){
-            formMessageSet('gia','error', 'Only standard TRTL address are supported');
+            formMessageSet('gia','error', 'Only standard LYNNE address are supported');
             return;
         }
         if(!wsutil.validatePaymentId(pid)){

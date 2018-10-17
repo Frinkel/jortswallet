@@ -17,7 +17,7 @@ const SERVICE_LOG_LEVEL_DEFAULT = 0;
 const SERVICE_LOG_LEVEL_DEBUG = 4;
 const SERVICE_LOG_LEVEL = (SERVICE_LOG_DEBUG ? SERVICE_LOG_LEVEL_DEBUG : SERVICE_LOG_LEVEL_DEFAULT);
 
-const ERROR_WALLET_EXEC = 'Failed to start turtle-service. Set the path to turtle-service properly in the settings tab.';
+const ERROR_WALLET_EXEC = 'Failed to start lynne-service. Set the path to lynne-service properly in the settings tab.';
 const ERROR_WALLET_PASSWORD = 'Failed to load your wallet, please check your password';
 const ERROR_WALLET_IMPORT = 'Import failed, please check that you have entered all information correctly';
 const ERROR_WALLET_CREATE = 'Wallet can not be created, please check your input and try again';
@@ -153,9 +153,9 @@ WalletShellManager.prototype.startService = function(walletFile, password, onErr
                 onError(`ERROR_WALLET_EXEC: ${error.message}`);
             }else{
                 log.debug(stdout);
-                if(stdout && stdout.length && stdout.indexOf('TRTL') !== -1){
+                if(stdout && stdout.length && stdout.indexOf('gay1') !== -1){
                     let trimmed = stdout.trim();
-                    let walletAddress = trimmed.substring(trimmed.indexOf('TRTL'), trimmed.length);
+                    let walletAddress = trimmed.substring(trimmed.indexOf('gay1'), trimmed.length);
                     wsession.set('loadedWalletAddress', walletAddress);
                     wsm._spawnService(walletFile, password, onError, onSuccess, onDelay);
                 }else{
@@ -218,24 +218,24 @@ WalletShellManager.prototype._spawnService = function(walletFile, password, onEr
         this.servicePid = this.serviceProcess.pid;
     }catch(e){
         if(onError) onError(ERROR_WALLET_EXEC);
-        log.error('turtle-service is not running');
+        log.error('lynne-service is not running');
         return false;
     }
     
     this.serviceProcess.on('close', (code, signal) => {
         this.terminateService(true);
-        log.debug(`turtle-service closed, signal: ${signal}, code: ${code}`);
+        log.debug(`lynne-service closed, signal: ${signal}, code: ${code}`);
     });
 
     this.serviceProcess.on('error', (err) => {
         this.terminateService(true);
         wsm.syncWorker.stopSyncWorker();
-        log.error(`turtle-service error: ${err.message}`);
+        log.error(`lynne-service error: ${err.message}`);
     });
 
     if(!this.serviceStatus()){
         if(onError) onError(ERROR_WALLET_EXEC);
-        log.error('turtle-service is not running');
+        log.error('lynne-service is not running');
         return false;
     }
 
@@ -263,7 +263,7 @@ WalletShellManager.prototype._spawnService = function(walletFile, password, onEr
             return true;
         }).catch((err) => {
             log.debug('Connection failed or timedout');
-            if(retry === 10 && onDelay) onDelay(`Still no respond from turtle-service, please wait a few more seconds...`);
+            if(retry === 10 && onDelay) onDelay(`Still no response from lynne-service, hang on a minute...`);
             if(retry >= MAX_CHECK && !TEST_OK){
                 if(wsm.serviceStatus()){
                     wsm.terminateService();
@@ -332,7 +332,7 @@ WalletShellManager.prototype.terminateService = function(force) {
         if(this.servicePid) process.kill(this.servicePid, signal);
     }catch(e){
         if(!force && this.serviceProcess) {
-            log.debug(`SIGKILLing turtle-service`);
+            log.debug(`SIGKILLing lynne-service`);
             try{this.serviceProcess.kill('SIGKILL');}catch(err){}
             if(this.servicePid){
                 try{process.kill(this.servicePid, 'SIGKILL');}catch(err){}
@@ -678,7 +678,7 @@ WalletShellManager.prototype.networkStateUpdate = function(state){
                 try{process.kill(pid, 'SIGKILL');}catch(e){}
             }
             setTimeout(()=>{
-                log.debug('respawning turtle-service');
+                log.debug('respawning lynne-service');
                 this.serviceProcess = childProcess.spawn(this.serviceBin, this.serviceActiveArgs);
                 // store new pid
                 this.servicePid = this.serviceProcess.pid;
